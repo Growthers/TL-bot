@@ -33,7 +33,7 @@ class Events(commands.Cog):
         time = datetime.now(JST).strftime("%m/%d %H:%M")
 
         embed = discord.Embed(description=message.content, color=0xf4a460)
-        embed.set_author(name=message.author.name ,icon_url=message.author.avatar_url)
+        embed.set_author(name=message.author.name, icon_url=message.author.avatar_url)
         embed.set_footer(text=time)
 
         channel = await self.bot.fetch_channel(self.sending_channel)
