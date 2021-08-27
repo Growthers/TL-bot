@@ -75,6 +75,16 @@ class Events(commands.Cog):
         if message.content != "":
             await channel.send(embed=embed)
 
+        for attachment in message.attachments:
+            URL = attachment.proxy_url
+            if URL == "":
+                continue
+            medium_embed = discord.Embed(title="画像", url=URL, color=0xf4a460)
+            medium_embed.set_author(name=f"{author.display_name} ({author.name}#{author.discriminator})", icon_url=author.avatar_url)
+            medium_embed.set_image(url=URL)
+            medium_embed.set_footer(text=time)
+            await channel.send(embed=medium_embed)
+
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         before.content = str(before.content).replace("```", "")
