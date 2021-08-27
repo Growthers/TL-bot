@@ -73,6 +73,32 @@ class Events(commands.Cog):
         channel = await self.bot.fetch_channel(self.sending_channel)
         await channel.send(embed=embed)
 
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        before.content = str(before.content).replace("```", "")
+        after.content = str(after.content).replace("```", "")
+
+        if before.author.bot:
+            return
+
+        if before.channel.category_id != self.category:
+            return
+
+        if before.channel.id == self.sending_channel:
+            return
+
+        time = datetime.now(JST).strftime("%m/%d %H:%M")
+        author = before.author
+
+        content = f"```diff\n- {before.content}\n+ {after.content}\n```"
+
+        embed = discord.Embed(description=content, color=0xf4a460)
+        embed.set_author(name=f"{author.display_name} ({author.name}#{author.discriminator})", icon_url=author.avatar_url)
+        embed.set_footer(text=time)
+
+        channel = await self.bot.fetch_channel(self.sending_channel)
+        await channel.send(embed=embed)
+
     @commands.command()
     @commands.is_owner()
     async def reload(self, ctx):
