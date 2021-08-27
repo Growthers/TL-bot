@@ -71,7 +71,9 @@ class Events(commands.Cog):
         embed.set_footer(text=time)
 
         channel = await self.bot.fetch_channel(self.sending_channel)
-        await channel.send(embed=embed)
+
+        if message.content != "":
+            await channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
