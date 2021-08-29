@@ -93,6 +93,9 @@ class Events(commands.Cog):
         if before.author.bot:
             return
 
+        if before.content == after.content:
+            return
+
         if before.channel.category_id != self.category:
             return
 
